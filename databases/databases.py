@@ -1,0 +1,21 @@
+from aws_cdk import (
+    RemovalPolicy,
+    aws_dynamodb as ddb
+)
+from constructs import Construct
+
+
+REMOVAL_POLICY = RemovalPolicy.DESTROY
+
+TABLE_CONFIG = dict (removal_policy=REMOVAL_POLICY, billing_mode= ddb.BillingMode.PAY_PER_REQUEST)
+
+
+class Tables(Construct):
+
+    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+        super().__init__(scope, construct_id, **kwargs)
+
+        self.sample_table = ddb.Table(
+            self, "Table", 
+            partition_key=ddb.Attribute(name="Passenger_ID", type=ddb.AttributeType.STRING),
+            **TABLE_CONFIG)
